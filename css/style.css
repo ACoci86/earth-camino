@@ -179,8 +179,7 @@ figcaption a { color: inherit; }
 @media (max-width: 999px) and (orientation: portrait), (max-width: 599px) { .wide-only { display: none; } .narrow-only { display: inline; } }
 .note-text { margin: 0 0 14px; max-width: 70ch; }   /* a short paragraph under a handwritten note, above its picture */
 /* Hand-drawn touches: wavy section edges, ink icons on soft blobs, handwritten notes in Gaegu */
-.wave { height: 46px; margin-top: 3rem; background: var(--cream); -webkit-mask: url(../img/decor/section-separator.svg) no-repeat center bottom / 100% 100%; mask: url(../img/decor/section-separator.svg) no-repeat center bottom / 100% 100%; }
-.day { margin-top: 0; padding: 4px clamp(16px, 3vw, 28px) 22px; background: var(--cream); border-radius: 0 0 var(--radius) var(--radius); }
+.day { margin-top: 3rem; padding: 4px clamp(16px, 3vw, 28px) 22px; background: var(--cream); border-radius: var(--radius); }
 [data-note] { position: relative; padding-top: 74px; }
 [data-note]::before { content: ""; position: absolute; left: 0; top: 2px; width: 94px; height: 60px; background: url(../img/decor/paw-with-blob.png) center / auto 44px no-repeat, url(../img/icons/disc.png) center / auto 52px no-repeat, url(../img/decor/yellow-science-blob-small.png) center / 100% 100% no-repeat; }
 [data-ic="map"]::before { background-image: url(../img/icons/corridor-map.svg), url(../img/icons/disc.png), url(../img/decor/yellow-science-blob-small.png); background-size: auto 52px, auto 52px, 100% 100%; }   /* map icon from bcorridorwaterford.com */
