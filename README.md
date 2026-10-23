@@ -15,8 +15,8 @@ Live at [acoci86.github.io/earth-camino](https://acoci86.github.io/earth-camino/
 
 - `index.html`: the page
 - `css/style.css`: styling
-- `js/map.js`: the scroll-following route map and elevation strip (Leaflet)
-- `js/page.js`: hand-drawn lines and marks (rough.js, Rough Notation)
+- `js/map.js`: the interactive route map, day buttons and elevation strip (Leaflet)
+- `js/page.js`: the hand-drawn touches (rough.js, Rough Notation), the day cards and the scroll-in effects
 - `js/route.js`: route line and elevation data
 - `img/`, `logo/`: photos, icons and logos
 
