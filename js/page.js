@@ -9,7 +9,8 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   if (!window.rough) return;
   const STROKE = '#c9cdc3';
   const NS = 'http://www.w3.org/2000/svg';
-  const draw = () => document.querySelectorAll('.stages').forEach((box, i) => {
+  const draw = (root = document) => root.querySelectorAll('.stages').forEach(box => {
+    const i = [...document.querySelectorAll('.stages')].indexOf(box);   // fixed seed per box, whichever subset is drawn
     let svg = box.querySelector('svg.sketch');
     if (!svg) { svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'sketch'); svg.setAttribute('aria-hidden', 'true'); box.prepend(svg); }
     svg.replaceChildren();
@@ -55,7 +56,9 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   });
   // hand-drawn boxes with a plain light wash: the joining notes inside a day card (green where you can
   // join, orange where you can't), the grey at-your-own-risk notice, and her peach "why" note
-  const drawNotes = () => document.querySelectorAll('.join-note, .risk-note, .why-note').forEach((el, i) => {
+  const NOTES = '.join-note, .risk-note, .why-note';
+  const drawNotes = (root = document) => root.querySelectorAll(NOTES).forEach(el => {
+    const i = [...document.querySelectorAll(NOTES)].indexOf(el);
     let svg = el.querySelector(':scope > svg.sketch');
     if (!svg) { svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'sketch'); svg.setAttribute('aria-hidden', 'true'); el.prepend(svg); }
     svg.replaceChildren();
@@ -68,22 +71,45 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
       stroke: col, strokeWidth: 1.3, roughness: 1.4, bowing: 1.5,
       fill: wash, fillStyle: 'solid', seed: 701 + i * 3
     }));
+    if (!no && !el.classList.contains('join-note')) return;
+    // the joining notes also get a round solid dot, drawn with only a hint of a hand
+    let dot = el.querySelector(':scope > svg.dot');
+    if (!dot) { dot = document.createElementNS(NS, 'svg'); dot.setAttribute('class', 'dot'); dot.setAttribute('viewBox', '0 0 14 14'); dot.setAttribute('aria-hidden', 'true'); el.prepend(dot); }
+    dot.replaceChildren();
+    dot.appendChild(rough.svg(dot).circle(7, 7, 9, { stroke: col, strokeWidth: 1.4, roughness: .35, bowing: .3, curveStepCount: 12, fill: col, fillStyle: 'solid', seed: 751 + i }));
   });
-  const all = () => { draw(); drawTops(); drawLinks(); drawNotes(); };
+  // each day card's open/close control: a sketched arrow (it turns to point up when open) in a sketched box
+  document.querySelectorAll('.day-more').forEach((el, i) => {
+    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'arrow'); svg.setAttribute('viewBox', '0 0 26 26'); svg.setAttribute('aria-hidden', 'true');
+    const o = { stroke: 'currentColor', strokeWidth: 2.2, roughness: 1.1, bowing: 1.2 };
+    const rc = rough.svg(svg);
+    svg.appendChild(rc.line(13, 3, 13, 21, { ...o, seed: 961 + i }));
+    svg.appendChild(rc.linearPath([[5, 14], [13, 22], [21, 14]], { ...o, seed: 981 + i }));
+    el.appendChild(svg);
+  });
+  const drawMoreBoxes = () => document.querySelectorAll('.day-more').forEach((el, i) => {
+    let svg = el.querySelector(':scope > svg.sketch');
+    if (!svg) { svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'sketch'); svg.setAttribute('aria-hidden', 'true'); el.prepend(svg); }
+    svg.replaceChildren();
+    const w = el.offsetWidth, h = el.offsetHeight;
+    if (!w) return;
+    svg.appendChild(rough.svg(svg).rectangle(1.5, 1.5, w - 3, h - 3, { stroke: 'currentColor', strokeWidth: 1.4, roughness: 1.3, bowing: 1.2, fill: 'rgba(255,255,255,.7)', fillStyle: 'solid', seed: 1001 + i }));
+  });
+  const all = () => { draw(); drawTops(); drawLinks(); drawNotes(); drawMoreBoxes(); };
   all();
   let tmr; addEventListener('resize', () => { clearTimeout(tmr); tmr = setTimeout(all, 120); });
   document.fonts?.ready.then(all);
-  // when the page's width or a card's size changes, lines can wrap differently: redraw
+  // every drawing is anchored to its own element, so it moves with it: redraw only when widths change
+  // (lines can wrap differently), never because the page grows or shrinks, e.g. while a card slides open
   let lastKey = '';
   const art = document.querySelector('main');
-  const onLayout = () => {
-    const key = (art ? art.offsetHeight + 'x' + art.clientWidth : document.body.offsetHeight) + 'x' + innerWidth;
+  const ro = new ResizeObserver(() => {
+    const key = (art ? art.clientWidth : 0) + 'x' + innerWidth;
     if (key !== lastKey) { lastKey = key; clearTimeout(tmr); tmr = setTimeout(all, 30); }
-  };
-  const ro = new ResizeObserver(onLayout);
-  ro.observe(document.body); if (art) ro.observe(art);
-  // a day card opening lays out its stage dividers for the first time
-  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', all));
+  });
+  ro.observe(document.body);
+  // an opening card lays out its stage dividers and notes for the first time: draw those, once
+  document.querySelectorAll('details.day').forEach(d => d.addEventListener('toggle', () => { if (d.open) { draw(d); drawNotes(d); } }));
 })();
 
 // Hand-drawn underline under each section title, drawn once as the title scrolls into view
