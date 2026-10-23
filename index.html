@@ -52,17 +52,15 @@
 <link rel="icon" type="image/png" sizes="48x48" href="logo/favicon-48.png">
 <link rel="icon" type="image/png" sizes="256x256" href="logo/favicon.png">
 <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- the two fonts seen first are fetched straight away -->
+<link rel="preload" href="fonts/outfit-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/gfs-didot-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://server.arcgisonline.com">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap"></noscript>
 <!-- the map is further down the page: its stylesheet loads without holding up the first paint -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"></noscript>
-<link rel="stylesheet" href="css/style.css?v=85">
+<link rel="stylesheet" href="css/style.css?v=87">
 </head>
 <body>
 
