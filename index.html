@@ -54,8 +54,14 @@
 <link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://server.arcgisonline.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Inter:opsz,wght@14..32,400&family=Gaegu:wght@400;700&family=Outfit:wght@400;500;800&display=swap"></noscript>
+<!-- the map is further down the page: its stylesheet loads without holding up the first paint -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"></noscript>
 <link rel="stylesheet" href="css/style.css?v=85">
 </head>
 <body>
@@ -76,7 +82,7 @@
       <h1>Come walk the <br class="br-phone">Earth Camino!</h1>
       <div class="intro">
         <figure>
-        <img src="img/cecily-stmullins.jpg" alt="Cecily Maher smiling on the bank of the River Barrow at St Mullins, with woods across the water" width="1600" height="1200">
+        <img fetchpriority="high" src="img/cecily-stmullins.jpg" srcset="img/cecily-stmullins-400.webp 400w, img/cecily-stmullins-800.webp 800w, img/cecily-stmullins-1200.webp 1200w" sizes="(max-width: 700px) calc(100vw - 40px), 320px" alt="Cecily Maher smiling on the bank of the River Barrow at St Mullins, with woods across the water" width="1600" height="1200">
         <figcaption>Cecily on the Barrow at St Mullins.</figcaption>
       </figure>
         <div class="intro-text">
@@ -158,7 +164,7 @@
       <div class="days" id="days">
         <details class="day" id="day-1" style="--i: 0">
           <summary>
-            <img class="day-thumb" src="img/waterford.jpg" alt="" loading="lazy">
+            <img class="day-thumb" src="img/waterford.jpg" srcset="img/waterford-400.webp 400w, img/waterford-800.webp 800w, img/waterford-1200.webp 1200w" sizes="112px" alt="" loading="lazy">
             <span class="day-head">
               <span class="day-label">Day 1 - Monday 9 November</span>
               <span class="day-title">Waterford City to St Mullins</span>
@@ -173,11 +179,11 @@
             </div>
             <div class="gallery">
             <figure>
-            <img src="img/waterford.jpg" alt="Boats moored on the River Suir at Waterford, with wooded hills across the water" width="1920" height="1192" loading="lazy">
+            <img src="img/waterford.jpg" srcset="img/waterford-400.webp 400w, img/waterford-800.webp 800w, img/waterford-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="Boats moored on the River Suir at Waterford, with wooded hills across the water" width="1920" height="1192" loading="lazy">
             <figcaption>Start: Waterford City, on the River Suir. <span class="by">Zairon, CC BY 4.0</span></figcaption>
             </figure>
             <figure>
-            <img src="img/stmullins-cecily.jpg" alt="The River Barrow at St Mullins, between steep wooded banks, behind a hedge of red fuchsia" width="1600" height="1200" loading="lazy">
+            <img src="img/stmullins-cecily.jpg" srcset="img/stmullins-cecily-400.webp 400w, img/stmullins-cecily-800.webp 800w, img/stmullins-cecily-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The River Barrow at St Mullins, between steep wooded banks, behind a hedge of red fuchsia" width="1600" height="1200" loading="lazy">
             <figcaption>End: The River Barrow at St Mullins. <span class="by">Cecily Maher</span></figcaption>
             </figure>
             </div>
@@ -186,7 +192,7 @@
 
         <details class="day" id="day-2" style="--i: 1">
           <summary>
-            <img class="day-thumb" src="img/stmullins-barrow-sun.jpg" alt="" loading="lazy">
+            <img class="day-thumb" src="img/stmullins-barrow-sun.jpg" srcset="img/stmullins-barrow-sun-400.webp 400w, img/stmullins-barrow-sun-800.webp 800w, img/stmullins-barrow-sun-1200.webp 1200w" sizes="112px" alt="" loading="lazy">
             <span class="day-head">
               <span class="day-label">Day 2 - Tuesday 10 November</span>
               <span class="day-title">St Mullins to Bagenalstown</span>
@@ -201,11 +207,11 @@
             </div>
             <div class="gallery">
             <figure>
-            <img src="img/stmullins-barrow-sun.jpg" alt="The River Barrow near St Mullins in evening sun, with lit trees and a blue sky with clouds" width="1920" height="1280" loading="lazy">
+            <img src="img/stmullins-barrow-sun.jpg" srcset="img/stmullins-barrow-sun-400.webp 400w, img/stmullins-barrow-sun-800.webp 800w, img/stmullins-barrow-sun-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The River Barrow near St Mullins in evening sun, with lit trees and a blue sky with clouds" width="1920" height="1280" loading="lazy">
             <figcaption>Start: The River Barrow at St Mullins. <span class="by">JulienWittenberg, CC BY-SA 4.0</span></figcaption>
             </figure>
             <figure>
-            <img src="img/bagenalstownlock.jpg" alt="Lock and old mill on the Barrow at Bagenalstown" loading="lazy">
+            <img src="img/bagenalstownlock.jpg" srcset="img/bagenalstownlock-400.webp 400w, img/bagenalstownlock-800.webp 800w, img/bagenalstownlock-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="Lock and old mill on the Barrow at Bagenalstown" loading="lazy">
             <figcaption>End: Bagenalstown. <span class="by">A.-K. D., CC0</span></figcaption>
             </figure>
             </div>
@@ -214,7 +220,7 @@
 
         <details class="day" id="day-3" style="--i: 2">
           <summary>
-            <img class="day-thumb" src="img/bagenalstown-towpath.jpg" alt="" loading="lazy">
+            <img class="day-thumb" src="img/bagenalstown-towpath.jpg" srcset="img/bagenalstown-towpath-400.webp 400w, img/bagenalstown-towpath-800.webp 800w, img/bagenalstown-towpath-1200.webp 1200w" sizes="112px" alt="" loading="lazy">
             <span class="day-head">
               <span class="day-label">Day 3 - Wednesday 11 November</span>
               <span class="day-title">Bagenalstown to Athy</span>
@@ -229,11 +235,11 @@
             </div>
             <div class="gallery">
             <figure>
-            <img src="img/bagenalstown-towpath.jpg" alt="The towpath at Bagenalstown between an old stone mill and the tree-lined Barrow" width="1920" height="960" loading="lazy">
+            <img src="img/bagenalstown-towpath.jpg" srcset="img/bagenalstown-towpath-400.webp 400w, img/bagenalstown-towpath-800.webp 800w, img/bagenalstown-towpath-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The towpath at Bagenalstown between an old stone mill and the tree-lined Barrow" width="1920" height="960" loading="lazy">
             <figcaption>Start: The towpath at Bagenalstown. <span class="by">A.-K. D., CC0</span></figcaption>
             </figure>
             <figure>
-            <img src="img/athy.jpg" alt="White's Castle beside the Barrow bridge in Athy" loading="lazy">
+            <img src="img/athy.jpg" srcset="img/athy-400.webp 400w, img/athy-800.webp 800w, img/athy-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="White's Castle beside the Barrow bridge in Athy" loading="lazy">
             <figcaption>End: Athy. <span class="by">Eeno11, CC BY-SA 3.0</span></figcaption>
             </figure>
             </div>
@@ -242,7 +248,7 @@
 
         <details class="day" id="day-4" style="--i: 3">
           <summary>
-            <img class="day-thumb" src="img/athy-river.jpg" alt="" loading="lazy">
+            <img class="day-thumb" src="img/athy-river.jpg" srcset="img/athy-river-400.webp 400w, img/athy-river-800.webp 800w, img/athy-river-1200.webp 1200w" sizes="112px" alt="" loading="lazy">
             <span class="day-head">
               <span class="day-label">Day 4 - Thursday 12 November</span>
               <span class="day-title">Athy to Rathangan</span>
@@ -257,11 +263,11 @@
             </div>
             <div class="gallery">
             <figure>
-            <img src="img/athy-river.jpg" alt="The River Barrow at Athy, with a grassy bank and trees reflected in the water" width="1920" height="1275" loading="lazy">
+            <img src="img/athy-river.jpg" srcset="img/athy-river-400.webp 400w, img/athy-river-800.webp 800w, img/athy-river-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The River Barrow at Athy, with a grassy bank and trees reflected in the water" width="1920" height="1275" loading="lazy">
             <figcaption>Start: The River Barrow at Athy. <span class="by">Alex Passmore, CC BY-SA 2.0</span></figcaption>
             </figure>
             <figure>
-            <img src="img/rathangan.jpg" alt="Lock gates at Spencer Bridge, Rathangan" loading="lazy">
+            <img src="img/rathangan.jpg" srcset="img/rathangan-400.webp 400w, img/rathangan-800.webp 800w, img/rathangan-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="Lock gates at Spencer Bridge, Rathangan" loading="lazy">
             <figcaption>End: Rathangan. <span class="by">Alex Passmore, CC BY-SA 2.0</span></figcaption>
             </figure>
             </div>
@@ -270,7 +276,7 @@
 
         <details class="day" id="day-5" style="--i: 4">
           <summary>
-            <img class="day-thumb" src="img/rathangan-canal.jpg" alt="" loading="lazy">
+            <img class="day-thumb" src="img/rathangan-canal.jpg" srcset="img/rathangan-canal-400.webp 400w, img/rathangan-canal-800.webp 800w, img/rathangan-canal-1200.webp 1200w" sizes="112px" alt="" loading="lazy">
             <span class="day-head">
               <span class="day-label">Day 5 - Friday 13 November</span>
               <span class="day-title">Rathangan to Clondalkin</span>
@@ -285,11 +291,11 @@
             </div>
             <div class="gallery">
             <figure>
-            <img src="img/rathangan-canal.jpg" alt="The Grand Canal near Rathangan at dusk, with reeds and bare trees along the towpath" width="1920" height="1440" loading="lazy">
+            <img src="img/rathangan-canal.jpg" srcset="img/rathangan-canal-400.webp 400w, img/rathangan-canal-800.webp 800w, img/rathangan-canal-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The Grand Canal near Rathangan at dusk, with reeds and bare trees along the towpath" width="1920" height="1440" loading="lazy">
             <figcaption>Start: The Grand Canal at Rathangan. <span class="by">Itchybowwow, CC BY-SA 3.0</span></figcaption>
             </figure>
             <figure>
-            <img src="img/clondalkin-canal.jpg" alt="The Grand Canal towpath and a lock on the western edge of Clondalkin" width="1024" height="768" loading="lazy">
+            <img src="img/clondalkin-canal.jpg" srcset="img/clondalkin-canal-400.webp 400w, img/clondalkin-canal-800.webp 800w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The Grand Canal towpath and a lock on the western edge of Clondalkin" width="1024" height="768" loading="lazy">
             <figcaption>End: The Grand Canal at Clondalkin. <span class="by">jwd, CC BY-SA 2.0</span></figcaption>
             </figure>
             </div>
@@ -298,7 +304,7 @@
 
         <details class="day" id="day-6" style="--i: 5">
           <summary>
-            <img class="day-thumb" src="img/garden.jpg" alt="" loading="lazy">
+            <img class="day-thumb" src="img/garden.jpg" srcset="img/garden-400.webp 400w, img/garden-800.webp 800w, img/garden-1200.webp 1200w" sizes="112px" alt="" loading="lazy">
             <span class="day-head">
               <span class="day-label">Day 6 - Saturday 14 November</span>
               <span class="day-title">Clondalkin to the Garden of Remembrance</span>
@@ -313,11 +319,11 @@
             </div>
             <div class="gallery">
             <figure>
-            <img src="img/clondalkin-canal-sun.jpg" alt="The Grand Canal towpath on a bright day, with walkers, a swan on the bank and a tram passing beyond the water" width="1920" height="1280" loading="lazy">
+            <img src="img/clondalkin-canal-sun.jpg" srcset="img/clondalkin-canal-sun-400.webp 400w, img/clondalkin-canal-sun-800.webp 800w, img/clondalkin-canal-sun-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="The Grand Canal towpath on a bright day, with walkers, a swan on the bank and a tram passing beyond the water" width="1920" height="1280" loading="lazy">
             <figcaption>Start: The Grand Canal into the city, from Clondalkin. <span class="by">Swifty4, CC BY-SA 4.0</span></figcaption>
             </figure>
             <figure>
-            <img src="img/garden.jpg" alt="Garden of Remembrance, Parnell Square" loading="lazy">
+            <img src="img/garden.jpg" srcset="img/garden-400.webp 400w, img/garden-800.webp 800w, img/garden-1200.webp 1200w" sizes="(max-width: 520px) calc(100vw - 72px), 410px" alt="Garden of Remembrance, Parnell Square" loading="lazy">
             <figcaption>End: The Garden of Remembrance, Parnell Square. <span class="by">Sir James, CC BY-SA 3.0</span></figcaption>
             </figure>
             </div>
@@ -347,7 +353,7 @@
   <section class="band invite" id="join">
     <div class="wrap">
       <div class="invite-box">
-      <img class="portrait" src="img/cecily-stmullins-portrait.jpg" alt="Cecily Maher" width="600" height="600" loading="lazy">
+      <img class="portrait" src="img/cecily-stmullins-portrait.jpg" srcset="img/cecily-stmullins-portrait-200.webp 200w, img/cecily-stmullins-portrait-400.webp 400w" sizes="88px" alt="Cecily Maher" width="600" height="600" loading="lazy">
       <h2>March with Cecily</h2>
       <p class="lede">Walk a stretch of the Earth Camino with her, or join her at the National Climate March in Dublin on Saturday 14 November.</p>
       <a class="cta-btn" href="mailto:earthcamino@gmail.com?subject=Earth%20Camino"><span>Contact Cecily</span><span class="cta-icon"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4,15.6 C22.1,14.8 41.6,14.9 55.8,15.9 C56.6,26.3 56.4,38.1 55.5,48.6 C41.2,49.5 22.6,49.3 8.7,48.4 C7.6,37.6 7.7,25.9 8.4,15.6 Z"/><path class="flap" d="M9.6,17.4 C17.8,24.6 25.1,30.4 32.1,35.2 C39.4,30.2 46.6,24.1 54.4,17.2"/></g></svg></span></a>
