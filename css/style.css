@@ -238,6 +238,7 @@ figcaption .by { opacity: .75; }
 /* the open/close control: a small hand-drawn box (page.js) with "View details" and an arrow; orange on hover.
    Open, it reads "Close" and the arrow points up. Phones keep just the arrow in its box. */
 .day-more { position: relative; isolation: isolate; flex: none; display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 14px; color: var(--earth); transition: color .2s; }
+.stage p.join-note > svg.sketch path, .day-more > svg.sketch path { stroke-linejoin: round; stroke-linecap: round; }   /* clean corners on the small frames */
 .day-more > svg.sketch { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: -1; }
 /* both labels share one grid cell, so the box keeps the width of the longer and they crossfade */
 .day-more-text { display: grid; font-family: "Gaegu", "Segoe Print", cursive; font-size: 1.15rem; line-height: 1; white-space: nowrap; }

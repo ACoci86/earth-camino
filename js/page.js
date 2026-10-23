@@ -9,13 +9,21 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   if (!window.rough) return;
   const STROKE = '#c9cdc3';
   const NS = 'http://www.w3.org/2000/svg';
+  // rough.js draws each line twice; the gap between the two strokes grows with roughness, and on a phone's
+  // narrow boxes it opens up and the edges go heavy and uneven, so the stray is capped there
+  const PHONE = innerWidth < 700;
+  // same wobble as on desktop; only how far the second stroke may stray from the first is capped on phones
+  const SKETCH = PHONE ? { roughness: 1.3, bowing: 1.2, maxRandomnessOffset: 1 } : { roughness: 1.3, bowing: 1.2 };
+  // small framed things (the joining notes, the view-details box) get a slightly heavier, single clean
+  // stroke on phones: two hairlines inside a tinted box read as broken pixels there
+  const FRAME = PHONE ? { strokeWidth: 1.9, disableMultiStroke: true, roughness: 1.1, bowing: 1 } : {};
   const draw = (root = document) => root.querySelectorAll('.stages').forEach(box => {
     const i = [...document.querySelectorAll('.stages')].indexOf(box);   // fixed seed per box, whichever subset is drawn
     let svg = box.querySelector('svg.sketch');
     if (!svg) { svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'sketch'); svg.setAttribute('aria-hidden', 'true'); box.prepend(svg); }
     svg.replaceChildren();
     const rc = rough.svg(svg), w = box.clientWidth, h = box.clientHeight;
-    const opt = n => ({ stroke: STROKE, strokeWidth: 1.4, roughness: 1.3, bowing: 1.2, seed: 101 + i * 7 + n });
+    const opt = n => ({ stroke: STROKE, strokeWidth: 1.4, ...SKETCH, seed: 101 + i * 7 + n });
     svg.appendChild(rc.line(0, 1, w, 1, opt(0)));
     const [a, b] = box.querySelectorAll('.stage');
     if (!b) return;
@@ -26,7 +34,7 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     let svg = el.querySelector(':scope > svg.sketch');
     if (!svg) { svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'sketch'); svg.setAttribute('aria-hidden', 'true'); el.prepend(svg); }
     svg.replaceChildren();
-    svg.appendChild(rough.svg(svg).line(0, 1, el.clientWidth, 1, { stroke: STROKE, strokeWidth: 1.4, roughness: 1.3, bowing: 1.2, seed: 301 + i }));
+    svg.appendChild(rough.svg(svg).line(0, 1, el.clientWidth, 1, { stroke: STROKE, strokeWidth: 1.4, ...SKETCH, seed: 301 + i }));
   });
   // Sketched underline under every text link, drawn inside the link itself (so it moves with the text):
   // one small SVG at the link's top-left corner, a line under each line of the link
@@ -51,7 +59,7 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     svg.setAttribute('width', w); svg.setAttribute('height', h);
     rects.forEach((r, k) => {
       const x = r.left - left, y = r.bottom - top + 1;
-      svg.appendChild(rc.line(x, y, x + r.width, y, { stroke: col, strokeWidth: 1.2, roughness: 1.1, bowing: 1.5, seed: 501 + i * 5 + k }));
+      svg.appendChild(rc.line(x, y, x + r.width, y, { stroke: col, strokeWidth: 1.2, ...SKETCH, seed: 501 + i * 5 + k }));
     });
   });
   // hand-drawn boxes with a plain light wash: the joining notes inside a day card (green where you can
@@ -68,7 +76,7 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     const col = why ? '#2f5d46' : risk ? '#8a908a' : no ? '#D9622B' : '#2f5d46';
     const wash = why ? 'rgba(244,199,168,.22)' : risk ? 'rgba(47,53,66,.035)' : no ? 'rgba(217,98,43,.08)' : 'rgba(47,93,70,.07)';
     svg.appendChild(rough.svg(svg).rectangle(2, 2, w - 4, h - 4, {
-      stroke: col, strokeWidth: 1.3, roughness: 1.4, bowing: 1.5,
+      stroke: col, strokeWidth: 1.3, ...SKETCH, ...FRAME,
       fill: wash, fillStyle: 'solid', seed: 701 + i * 3
     }));
     if (!no && !el.classList.contains('join-note')) return;
@@ -93,7 +101,7 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     svg.replaceChildren();
     const w = el.offsetWidth, h = el.offsetHeight;
     if (!w) return;
-    svg.appendChild(rough.svg(svg).rectangle(1.5, 1.5, w - 3, h - 3, { stroke: 'currentColor', strokeWidth: 1.4, roughness: 1.3, bowing: 1.2, fill: 'rgba(255,255,255,.7)', fillStyle: 'solid', seed: 1001 + i }));
+    svg.appendChild(rough.svg(svg).rectangle(1.5, 1.5, w - 3, h - 3, { stroke: 'currentColor', strokeWidth: 1.4, ...SKETCH, ...FRAME, fill: 'rgba(255,255,255,.7)', fillStyle: 'solid', seed: 1001 + i }));
   });
   const all = () => { draw(); drawTops(); drawLinks(); drawNotes(); drawMoreBoxes(); };
   all();
