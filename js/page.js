@@ -86,15 +86,8 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     dot.replaceChildren();
     dot.appendChild(rough.svg(dot).circle(7, 7, 9, { stroke: col, strokeWidth: 1.4, roughness: .35, bowing: .3, curveStepCount: 12, fill: col, fillStyle: 'solid', seed: 751 + i }));
   });
-  // each day card's open/close control: a sketched arrow (it turns to point up when open) in a sketched box
-  document.querySelectorAll('.day-more').forEach((el, i) => {
-    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'arrow'); svg.setAttribute('viewBox', '0 0 26 26'); svg.setAttribute('aria-hidden', 'true');
-    const o = { stroke: 'currentColor', strokeWidth: 2.2, roughness: 1.1, bowing: 1.2 };
-    const rc = rough.svg(svg);
-    svg.appendChild(rc.line(13, 3, 13, 21, { ...o, seed: 961 + i }));
-    svg.appendChild(rc.linearPath([[5, 14], [13, 22], [21, 14]], { ...o, seed: 981 + i }));
-    el.appendChild(svg);
-  });
+  // each day card's open/close control gets its hand-drawn arrow (styled in CSS)
+  document.querySelectorAll('.day-more').forEach(el => { const i = document.createElement('i'); i.className = 'arrow'; i.setAttribute('aria-hidden', 'true'); el.appendChild(i); });
   const drawMoreBoxes = () => document.querySelectorAll('.day-more').forEach((el, i) => {
     let svg = el.querySelector(':scope > svg.sketch');
     if (!svg) { svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'sketch'); svg.setAttribute('aria-hidden', 'true'); el.prepend(svg); }
@@ -212,10 +205,11 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     circle: { type: 'circle', color: ORANGE, strokeWidth: 2, padding: [4, 8], iterations: 2 },
     underline: { type: 'underline', color: ORANGE, strokeWidth: 2.5, padding: [0, 2, 2, 2], iterations: 2, multiline: true }
   })[el.dataset.mark];
-  const reveal = (root, marks) => {
+  // drawn once the fonts are in, so each mark sits on its words and not where they were a moment before
+  const reveal = (root, marks) => (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
     const group = marks.map(([el, o]) => RoughNotation.annotate(el, { ...o, animate: !still, animationDuration: 600 }));
     RoughNotation.annotationGroup(group).show();
-  };
+  });
   const io = new IntersectionObserver((entries, o) => entries.forEach(e => {
     if (!e.isIntersecting) return;
     o.unobserve(e.target);
