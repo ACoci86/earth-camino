@@ -35,7 +35,7 @@ a:hover { text-decoration-color: currentColor; }
 /* text links get a hand-drawn underline from rough.js instead of the browser's straight one */
 main a:not(.btn):not(.cta-btn), footer a { text-decoration: none; }
 a.sketched { position: relative; }
-svg.link-sketch { position: absolute; left: 0; top: 0; width: 0; height: 0; overflow: visible; pointer-events: none; opacity: .5; transition: opacity .15s; }
+svg.link-sketch { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: .5; transition: opacity .15s; }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--pin); outline-offset: 3px; border-radius: 4px; }
 img { max-width: 100%; }
 p { margin: 0; }
@@ -147,8 +147,6 @@ figcaption .by { opacity: .75; }
   font-family: "Outfit", system-ui, sans-serif;
 }
 #elev { flex: 1; width: 100%; min-height: 0; display: block; cursor: crosshair; }
-.map-box .leaflet-bottom { bottom: 96px; }   /* the scale bar sits just above the elevation strip */
-@media (max-width: 599px) { .map-box .leaflet-bottom { bottom: 0; } }
 @media (max-width: 599px) { .profile { display: none; } }
 
 /* Map buttons */
@@ -173,9 +171,6 @@ figcaption .by { opacity: .75; }
 .info-panel p { margin: 0 0 8px; }
 .info-panel a { color: inherit; }
 .info-panel .made { border-top: 1px solid #eee; padding-top: 8px; margin: 0; font-size: 11px; color: #666; }
-/* scale bar: no ruled border, Rough Notation draws a hand-drawn box around it instead */
-.leaflet-control-scale-line { border: 0 !important; background: rgba(255,255,255,.85); font-size: 11px; font-family: var(--sans); color: #2F3542; padding: 1px 6px; }
-.leaflet-control-scale { position: relative; }
 .map-box:fullscreen { border-radius: 0; height: 100%; }
 
 /* Map markers and controls */

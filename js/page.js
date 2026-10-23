@@ -1,6 +1,6 @@
 // Hand-drawn touches: rough.js lines (dividers, link underlines) and Rough Notation marks
 document.documentElement.classList.add('js');   // the stylesheet hides what the script will reveal only when it runs
-// (title underlines, the date, the scale bar box, the closing divider).
+// (title underlines, the date, the highlights, the closing divider).
 
 // Hand-drawn dividers in each day box: a line across under the title and a line between the two
 // stages (stacked stages on phones get a line between them instead). Same sketch style as the
@@ -40,9 +40,16 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     svg.replaceChildren();
     const rects = [...a.getClientRects()].filter(r => r.width >= 2);
     if (!rects.length) return;
+    // the SVG covers every line of the link (a wrapped link's later lines can start further left than its
+    // first), with real width and height: Safari does not paint an SVG whose size is zero
     const base = rects[0], rc = rough.svg(svg), col = getComputedStyle(a).color;
+    const PAD = 4;   // room for the line's wobble
+    const left = Math.min(...rects.map(r => r.left)) - PAD, top = Math.min(...rects.map(r => r.top));
+    const w = Math.max(...rects.map(r => r.right)) - left + PAD, h = Math.max(...rects.map(r => r.bottom)) - top + PAD + 2;
+    svg.style.left = (left - base.left) + 'px'; svg.style.top = (top - base.top) + 'px';
+    svg.setAttribute('width', w); svg.setAttribute('height', h);
     rects.forEach((r, k) => {
-      const x = r.left - base.left, y = r.bottom - base.top + 1;
+      const x = r.left - left, y = r.bottom - top + 1;
       svg.appendChild(rc.line(x, y, x + r.width, y, { stroke: col, strokeWidth: 1.2, roughness: 1.1, bowing: 1.5, seed: 501 + i * 5 + k }));
     });
   });
@@ -107,23 +114,6 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
       RoughNotation.annotate(el, { type: 'highlight', color: 'rgba(244,199,168,.6)', iterations: 1, padding: [1, 6], multiline: true, animate: !still, animationDuration: 380 }).show(),
       still ? 0 : i * 500 + 250));
   }), { rootMargin: '0px 0px -25% 0px' }).observe(days);
-  // the map's scale bar gets a sketched box, redrawn whenever its width changes with the zoom
-  const scale = document.querySelector('.leaflet-control-scale-line');
-  if (scale && window.map) {
-    let box = null, lastW = -1, raf = 0;
-    const fit = () => {
-      raf = 0;
-      const w = scale.offsetWidth;
-      if (w === lastW) return;
-      lastW = w;
-      if (box) box.remove();
-      box = RoughNotation.annotate(scale, { type: 'box', color: '#2F3542', strokeWidth: 1.5, padding: 2, iterations: 1, animate: false });
-      box.show();
-    };
-    map.on('move zoom', () => { if (!raf) raf = requestAnimationFrame(fit); });
-    addEventListener('layoutchange', () => { lastW = -1; if (!raf) raf = requestAnimationFrame(fit); });
-    fit();
-  }
   // the divider before the closing section: a marker-style highlight band
   const div = document.querySelector('.divider');
   if (div) new IntersectionObserver((entries, o) => entries.forEach(e => {

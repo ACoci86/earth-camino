@@ -168,7 +168,6 @@ chips.forEach(b => b.addEventListener('click', () => showDay(+b.dataset.day)));
 
 
 // --- Controls ---
-L.control.scale({ position: 'bottomleft', imperial: false, maxWidth: 100 }).addTo(map);
 // hand-drawn control icons (img/controls), one per button
 const icons = { plus: 'zoom-in', minus: 'zoom-out', layers: 'layers', full: 'fullscreen', download: 'download' };
 const Buttons = L.Control.extend({
