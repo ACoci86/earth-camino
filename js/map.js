@@ -111,7 +111,9 @@ const dayLines = DAYS.map((d, i) => {
   const hit = L.polyline(dayPts[i], { color: '#000', weight: 22, opacity: 0 }).addTo(map);
   hit.bindTooltip(`Day ${i + 1}: ${d.name}`, { className: 'town', sticky: true, direction: 'top', offset: [0, -10] });
   hit.bindPopup(`<div class="day-pop"><span class="day-pop-n">Day ${i + 1} - ${d.date}</span><strong>${d.name}</strong><span class="day-pop-km">${d.km} km</span>` +
-    d.times.map(t => `<span class="stage-time">${t}</span>`).join('') + `<a href="#day-${i + 1}">See the stages</a></div>`, { className: 'day-popup', maxWidth: 260 });
+    d.times.map(t => `<span class="stage-time">${t}</span>`).join('') + `<a href="#day-${i + 1}">See the stages</a></div>`, { className: 'day-popup', maxWidth: Math.min(260, map.getSize().x - 150),   // narrower on a phone, so it fits beside the buttons
+    // keep the popup, and its close button, clear of the buttons down the right and the elevation strip
+    autoPanPaddingTopLeft: L.point(16, 16), autoPanPaddingBottomRight: L.point(60, 110) });
   hit.on('mouseover', () => lift(i, true));
   hit.on('mouseout', () => lift(i, false));
   hit.on('click', () => setChip(i + 1));
