@@ -9,7 +9,7 @@ const STOPS = [
 ];
 // Each day covers these route legs (leg i runs from STOPS[i] to STOPS[i+1]); date and times as on the page.
 const DAYS = [
-  { legs: [0, 1], km: 42, name: 'Waterford to St Mullins', date: 'Monday 9 November', times: ['9am – 12pm', '2pm – 5pm'] },
+  { legs: [0, 1], km: 42, name: 'Waterford to St Mullins', date: 'Monday 9 November', times: ['9am – 1pm', '2pm – 5pm'] },
   { legs: [2, 3], km: 37.5, name: 'St Mullins to Bagenalstown', date: 'Tuesday 10 November', times: ['9am – 12pm', '2pm – 5pm'] },
   { legs: [4, 5], km: 41, name: 'Bagenalstown to Athy', date: 'Wednesday 11 November', times: ['9am – 12.30pm', '2pm – 5.30pm'] },
   { legs: [6, 7], km: 37.5, name: 'Athy to Rathangan', date: 'Thursday 12 November', times: ['9am – 12.30pm', '2pm – 4.30pm'] },
@@ -89,6 +89,11 @@ LAYERS.push(
     credit: { 'Imagery': '© <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics' }
   }
 );
+// count tiles that load or fail from the start, so page.js can show a picture of the route if they are blocked
+window.tileStats = { ok: 0, failed: 0 };
+// and tell it the moment the map looks blocked: three tiles failed and none loaded
+const tileFailed = () => { if (++tileStats.failed === 3 && !tileStats.ok) dispatchEvent(new Event('tilesblocked')); };
+LAYERS.forEach(l => [l.layer, l.overlay].filter(Boolean).forEach(tl => tl.on('tileload', () => tileStats.ok++).on('tileerror', tileFailed)));
 let activeLayer = null;
 function useLayer(i) {
   if (activeLayer) { map.removeLayer(activeLayer.layer); if (activeLayer.overlay) map.removeLayer(activeLayer.overlay); }

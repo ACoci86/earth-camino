@@ -38,7 +38,7 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   });
   // Sketched underline under every text link, drawn inside the link itself (so it moves with the text):
   // one small SVG at the link's top-left corner, a line under each line of the link
-  const LINKS = 'main a:not(.cta-btn):not(.finale-logo):not(.leaflet-container a), footer a:not(.foot-logo)';
+  const LINKS = 'main a:not(.finale-logo):not(.leaflet-container a), footer a:not(.foot-logo)';
   const drawLinks = () => document.querySelectorAll(LINKS).forEach((a, i) => {
     let svg = a.querySelector(':scope > svg.link-sketch');
     if (!svg) {
@@ -129,14 +129,12 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   // the walk's dates get a hand-drawn orange underline as the page opens
   const date = document.querySelector('.post-date');
   if (date) setTimeout(() => mark(date, { type: 'underline', color: '#D9622B', strokeWidth: 2.5, padding: [0, 2, 2, 2], iterations: 2, animate: !still, animationDuration: 700 }), 400);
-  // as the day cards come into view the timeline draws itself down the page (pins and dashes, in CSS),
-  // and each day's times get the peach highlighter just after its pin lands
+  // each day's times get the peach highlighter just after its timeline pin lands (the pins: see below)
   const days = document.querySelector('.days');
   const times = [...document.querySelectorAll('.day-meta .stage-time')];
   if (days) new IntersectionObserver((entries, o) => entries.forEach(e => {
     if (!e.isIntersecting) return;
     o.unobserve(e.target);
-    days.classList.add('in');
     times.forEach((el, i) => setTimeout(() =>
       RoughNotation.annotate(el, { type: 'highlight', color: 'rgba(244,199,168,.6)', iterations: 1, padding: [1, 6], multiline: true, animate: !still, animationDuration: 380 }).show(),
       still ? 0 : i * 500 + 250));
@@ -194,15 +192,27 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   if (d) d.scrollIntoView();
 })();
 
-// Quotes and the poem: a sketched bracket beside each quote, a hand-drawn mark on its key words,
-// and the poem's lines arriving one by one, all as they scroll into view
+// Things the page reveals as they scroll into view: the poem's lines arrive one by one, and the timeline
+// beside the day cards draws itself down the page (pins and dashes, in CSS). These need nothing but the
+// page itself, so they always appear, even if the hand-drawing libraries fail to load
+(() => {
+  const reveal = el => {
+    if (!el) return;
+    const show = () => el.classList.add('in');
+    if (!('IntersectionObserver' in window)) return show();
+    new IntersectionObserver((entries, o) => entries.forEach(e => { if (e.isIntersecting) { o.disconnect(); show(); } }), { rootMargin: '0px 0px -25% 0px' }).observe(el);
+  };
+  reveal(document.querySelector('.poem-text'));
+  reveal(document.querySelector('.days'));
+})();
+
+// Hand-drawn marks on key words (the poem, the Day 1 joining note, the notice) as they scroll into view
 (() => {
   if (!window.RoughNotation) return;
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const PEACH = 'rgba(244,199,168,.6)', ORANGE = '#D9622B';
   const markOf = el => ({
     highlight: { type: 'highlight', color: PEACH, iterations: 1, padding: [1, 4], multiline: true },
-    circle: { type: 'circle', color: ORANGE, strokeWidth: 2, padding: [4, 8], iterations: 2 },
     underline: { type: 'underline', color: ORANGE, strokeWidth: 2.5, padding: [0, 2, 2, 2], iterations: 2, multiline: true }
   })[el.dataset.mark];
   // drawn once the fonts are in, so each mark sits on its words and not where they were a moment before
@@ -215,14 +225,11 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     o.unobserve(e.target);
     const q = e.target;
     const words = [...q.querySelectorAll('em[data-mark]')].map(el => [el, markOf(el)]);
-    if (q.classList.contains('quote')) reveal(q, [[q.querySelector('p'), { type: 'bracket', brackets: ['left', 'right'], color: ORANGE, strokeWidth: 2.5, padding: [2, 12] }], ...words]);
-    else if (q.classList.contains('poem-text')) {   // the poem: lines fade in, then the marks follow
-      q.classList.add('in');
-      setTimeout(() => reveal(q, words), still ? 0 : 900);
-    }
-    else reveal(q, words);   // a marked phrase in the text, e.g. the Day 1 joining note
+    // on the poem the marks follow once its lines have faded in
+    if (q.classList.contains('poem-text')) setTimeout(() => reveal(q, words), still ? 0 : 900);
+    else reveal(q, words);
   }), { rootMargin: '0px 0px -20% 0px' });
-  document.querySelectorAll('.quote, .poem-text, .lede:has(em[data-mark]), .risk-note').forEach(el => io.observe(el));
+  document.querySelectorAll('.poem-text, .lede:has(em[data-mark]), .risk-note').forEach(el => io.observe(el));
 })();
 
 // Her "why" note: an orange tick is drawn beside each reason, one after another, as the note scrolls into view
@@ -248,4 +255,44 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
       });
     });
   }), { rootMargin: '0px 0px -20% 0px' }).observe(note);
+})();
+
+// If the map's tiles cannot load (a network or blocker stopping the map providers), a picture of the
+// whole route takes the map's place: straight away once tiles are seen failing, or after 15s with none
+(() => {
+  const box = document.querySelector('.map-box'), img = box && box.querySelector('.map-fallback'), el = document.getElementById('map');
+  if (!img || !el) return;
+  // map.js counts the tiles that load or fail from the start (not the tiles' 'loaded' class: Leaflet adds it
+  // to failed tiles too); if the map script itself failed there is nothing to count, and the picture shows at 20s
+  const stats = () => window.tileStats || { ok: 0, failed: 0 };
+  const loaded = () => stats().ok > 0;
+  // day 0 is the whole route; days 1 to 6 are the views the live map flies to for each day
+  const show = day => {
+    // the address itself is changed (not a srcset), which every browser follows; the sharper file on wide or dense screens
+    const name = day ? 'map-fallback-day' + day : 'map-fallback';
+    const big = (img.clientWidth || box.clientWidth) * (window.devicePixelRatio || 1) > 900;
+    img.removeAttribute('srcset');
+    img.src = `img/${name}-${big ? 1720 : 860}.webp`;
+    img.alt = day ? `Map of day ${day} of the Earth Camino route` : 'Map of the whole Earth Camino route, from Waterford north along the Barrow and the Grand Canal to Dublin';
+  };
+  const fallBack = () => {
+    if (loaded() || !img.hidden) return;
+    const fig = box.closest('.route-map');
+    const chips = [...fig.querySelectorAll('.day-chips button')];
+    const pressed = chips.find(b => b.getAttribute('aria-pressed') === 'true');
+    show(pressed ? +pressed.dataset.day : 0);
+    img.hidden = false;
+    fig.classList.add('tiles-off');
+    const cap = fig.querySelector('figcaption');
+    if (cap) cap.textContent = 'Route line approximate.';
+    chips.forEach(b => b.addEventListener('click', () => {
+      chips.forEach(c => c.setAttribute('aria-pressed', String(c === b)));   // also when the map script is not running
+      show(+b.dataset.day);
+    }));
+  };
+  // straight away if the tiles failed before this script ran, the moment map.js reports them failing,
+  // and after 15s with no tile at all (a connection that hangs rather than fails, or no map script)
+  if (!loaded() && stats().failed >= 3) fallBack();
+  addEventListener('tilesblocked', fallBack);
+  setTimeout(fallBack, 15000);
 })();

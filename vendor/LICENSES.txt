@@ -1,0 +1,5 @@
+Third-party libraries served with the site, unchanged from their published builds:
+
+leaflet.min.js, leaflet.min.css  Leaflet 1.9.4 (https://leafletjs.com), BSD 2-Clause licence, (c) Volodymyr Agafonkin and contributors
+rough.js                         rough.js 4.6.6 (https://roughjs.com), MIT licence, (c) Preet Shihn
+rough-notation.iife.js           Rough Notation 0.5.1 (https://roughnotation.com), MIT licence, (c) Preet Shihn

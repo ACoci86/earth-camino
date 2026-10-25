@@ -37,7 +37,7 @@ body {
 a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 3px; }
 a:hover { text-decoration-color: currentColor; }
 /* text links get a hand-drawn underline from rough.js instead of the browser's straight one */
-main a:not(.btn):not(.cta-btn), footer a { text-decoration: none; }
+main a, footer a { text-decoration: none; }
 a.sketched { position: relative; }
 svg.link-sketch { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: .5; transition: opacity .15s; }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--pin); outline-offset: 3px; border-radius: 4px; }
@@ -60,7 +60,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 800; line-height: 1.1; lette
 @media (max-width: 599px) { .story h1 { font-size: calc(100cqi / 6.85); line-height: 1.05; } .br-phone { display: inline; } }
 
 /* Bands: full-width backgrounds, content centred inside */
-.band { padding: clamp(28px, 4vw, 44px) 0; }
+.band { padding: clamp(32px, 4vw, 48px) 0; }   /* room between sections, so each one reads as its own pause */
 .wrap { max-width: calc(var(--col) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter); }
 /* a hand-drawn line (rough.js) opens each section, in place of coloured bands */
 .section-rule { position: relative; height: 6px; margin-bottom: clamp(28px, 4vw, 40px); }
@@ -74,22 +74,19 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 800; line-height: 1.1; lette
 .kicker[data-ic="stages"]::before { background-image: url(../img/icons/stages.svg), url(../img/icons/disc.png), url(../img/decor/yellow-science-blob-small.png); background-size: auto 30px, auto 40px, 100% 100%; background-position: center; background-repeat: no-repeat; }
 .band h2 { position: relative; font-size: clamp(2rem, 1.3rem + 2.4vw, 3.2rem); }   /* positioned: Rough Notation draws its orange underline inside the heading, so it moves with it */
 .lede { margin-top: 18px; font-size: 1.05em; color: var(--muted); max-width: 38em; }
-.band-action { margin-top: 28px; text-align: center; }
-.band-action .cta-btn { margin-top: 0; }
 
-/* Story: Cecily's photo beside her own words */
+/* About the Walk: her photo on the left, the text wrapping around it */
 figure { margin: 0; }
 figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); background: var(--soft); }
 figcaption { font-size: .8rem; color: var(--muted); margin-top: .6rem; line-height: 1.45; }
 figcaption .by { opacity: .75; }
-.intro { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
-.intro-text { display: flex; flex-direction: column; gap: 1.1rem; }
-.who { font-weight: 800; font-size: 1.35rem; line-height: 1.2; color: var(--ink); }
-.bio { font-size: .98em; }
+/* the photo sits to the left and the text wraps around it, so the paragraphs also fill the space under it */
+.intro { display: flow-root; }
+.intro figure { float: left; width: min(320px, 42%); margin: 6px clamp(24px, 4vw, 40px) 14px 0; }
+.intro-text > * + * { margin-top: 1.1rem; }
+.story .who { font-size: 1.35rem; font-weight: 800; line-height: 1.2; color: var(--ink); }   /* the "About the Walk" heading */
 .intro-body { margin-top: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; gap: 1.1rem; max-width: 70ch; }
 .join { font-weight: 600; color: var(--earth); font-size: 1.08em; }
-.intro-mail { margin-top: -.4rem; }
-.intro-mail a { color: var(--earth); font-weight: 600; user-select: all; }
 /* Why she is walking: a note in her own hand - handwriting in a sketched box (page.js), and a
    hand-drawn tick drawn beside each reason as the note scrolls into view */
 .why-note { position: relative; isolation: isolate; width: fit-content; max-width: 100%; margin: 10px auto; padding: 14px 28px 12px 24px; font-family: "Gaegu", "Segoe Print", cursive; }   /* centred, as wide as its longest line */
@@ -99,31 +96,21 @@ figcaption .by { opacity: .75; }
 .why-note li { position: relative; padding-left: 32px; font-size: 1.35rem; line-height: 1.35; color: var(--fg); }
 .why-note li svg.tick { position: absolute; left: 0; top: .12em; width: 24px; height: 24px; overflow: visible; }
 .why-label { display: block; font-family: "Gaegu", "Segoe Print", cursive; font-size: 1.35rem; line-height: 1.1; color: var(--muted); margin-bottom: 4px; }
-@media (max-width: 700px) { .intro { grid-template-columns: minmax(0, 1fr); } .intro figure { max-width: 420px; } }
+@media (max-width: 700px) { .intro figure { float: none; width: auto; max-width: 420px; margin: 0 0 24px; } }
 
-/* Quotes: set large in the logo's serif, with a sketched orange bracket down the left (Rough Notation)
-   and a hand-drawn mark on a key word or two as they scroll into view */
-.quote { position: relative; margin: clamp(32px, 5vw, 52px) auto; padding: 4px 26px; max-width: 38em; text-align: center; }
-.quote p { display: inline-block; max-width: min(100%, 22em); font-family: "GFS Didot", "Didot", "Bodoni MT", Georgia, serif; font-size: clamp(1.25rem, 1rem + 1vw, 1.7rem); line-height: 1.4; color: var(--earth); }   /* lines fill the box, so the sketched brackets sit against the words */
-.quote em, .poem em, .lede em { font-style: normal; }
+.poem em, .lede em { font-style: normal; }
 .lede em { color: var(--fg); font-weight: 500; }   /* the Day 1 joining note, also highlighted by page.js */
-@media (max-width: 599px) { .quote p { text-wrap: balance; } }   /* phones: no lone word on the last line */
-.quote footer::before { content: "- "; }
-.quote footer { display: block; margin-top: 8px; font-family: "Gaegu", "Segoe Print", cursive; font-size: 1.25rem; line-height: 1.1; color: var(--muted); }
-.q-berry { margin-top: clamp(36px, 5vw, 56px); margin-bottom: 0; }
-.q-demello { margin-bottom: clamp(32px, 5vw, 52px); }
-.q-beckett { margin-bottom: 20px; }   /* the orange brush line follows it */
-.q-demello, .q-beckett { margin-top: 0; }
 
 /* The poem that closes the page: its lines come in one after another as it scrolls into view */
-.poem { text-align: center; }
+.poem { text-align: center; padding-bottom: clamp(28px, 4vw, 44px); }   /* the page ends soon after the poem, before the footer */
 .poem-title { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); }
 .poem-by { margin-top: 6px; font-family: "Gaegu", "Segoe Print", cursive; font-size: 1.35rem; line-height: 1.1; color: var(--muted); }
 /* a poem keeps its own line breaks: every line stays whole, and the size comes down on narrow screens so the
    longest line ("rests in his beauty on the water, and the great heron feeds.", 26.7em) still fits */
 .poem .wrap { container-type: inline-size; }
 .poem-text { position: relative; margin-top: 24px; font-family: "GFS Didot", "Didot", "Bodoni MT", Georgia, serif; font-size: min(clamp(1.15rem, 1rem + .7vw, 1.5rem), calc(100cqi / 27.4)); line-height: 1.55; color: var(--earth); max-width: 34em; margin-left: auto; margin-right: auto; }
-.poem-text .line { display: block; white-space: nowrap; opacity: 0; transform: translateY(6px); transition: opacity .7s ease, transform .7s ease; }
+.poem-text .line { display: block; white-space: nowrap; transition: opacity .7s ease, transform .7s ease; }
+.js .poem-text:not(.in) .line { opacity: 0; transform: translateY(6px); }   /* until page.js fades them in */
 .poem-text.in .line { opacity: 1; transform: none; }
 /* phones: set as narrow books set a poem - left-aligned at a readable size, and a line too long
    for the screen turns over, continuing indented under itself */
@@ -141,6 +128,9 @@ figcaption .by { opacity: .75; }
   background: var(--soft); box-shadow: 0 4px 10px rgba(0,0,0,.12);
 }
 @media (max-width: 599px) { .map-box { height: 420px; } }
+/* if the map tiles are blocked, a picture of the whole route stands in for the map (page.js) */
+.map-fallback { position: absolute; inset: 0; z-index: 900; width: 100%; height: 100%; object-fit: cover; object-position: 52% top; background: var(--soft); }
+.tiles-off .leaflet-control-container, .tiles-off .info-btn { display: none; }   /* the day buttons stay: they switch between pictures of each day */
 #map { position: absolute; inset: 0; }
 .day-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 0 12px; }
 .day-chips button {
@@ -314,14 +304,7 @@ figcaption a { color: inherit; }
 .invite .portrait { display: block; width: 88px; height: 88px; margin: 0 auto 16px; border-radius: 50%; object-fit: cover; }
 .invite h2 { font-size: clamp(28px, 1.6rem + 1vw, 40px); }
 .invite .lede { margin-left: auto; margin-right: auto; max-width: 30em; }
-.cta-btn { display: inline-flex; align-items: center; gap: .5em; margin-top: 22px; padding: 14px 40px; border-radius: 999px; background: var(--pin); color: #fff; font: 800 1.1rem var(--sans); text-decoration: none; box-shadow: 0 3px 10px rgba(217,98,43,.3); transition: transform .15s, box-shadow .15s; }
-.cta-btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(217,98,43,.4); }
-.cta-icon { display: inline-flex; line-height: 1; }
-.cta-icon svg { width: 1.35em; height: auto; display: block; overflow: visible; fill: currentColor; }
-/* hovering the button opens the envelope: its flap swings up on its top edge */
-.cta-icon .flap { transform-box: fill-box; transform-origin: center top; transition: transform .3s ease; }
-.cta-btn:hover .flap, .cta-btn:focus-visible .flap { transform: scaleY(-1); }
-.invite .contact { margin-top: 22px; font-size: .95em; color: var(--muted); max-width: 30em; margin-left: auto; margin-right: auto; }
+.invite .contact { margin-top: 14px; font-size: 1.05em; color: var(--muted); max-width: 30em; margin-left: auto; margin-right: auto; }
 .invite .contact a { color: var(--earth); font-weight: 600; user-select: all; }
 
 footer { position: relative; margin-top: 0; padding: 2rem var(--gutter) 3rem; font-size: .8rem; color: var(--muted); }

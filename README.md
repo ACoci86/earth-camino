@@ -19,6 +19,8 @@ Live at [acoci86.github.io/earth-camino](https://acoci86.github.io/earth-camino/
 - `js/page.js`: the hand-drawn touches (rough.js, Rough Notation), the day cards and the scroll-in effects
 - `js/route.js`: route line and elevation data
 - `img/`, `logo/`: photos, icons and logos
+- `fonts/`: the fonts, served from the site (SIL Open Font License)
+- `vendor/`: Leaflet, rough.js and Rough Notation, served from the site so no outside service can block them
 
 It's a static site with no build step: open `index.html` in a browser, or serve the folder with any static host.
 
