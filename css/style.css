@@ -206,7 +206,7 @@ figcaption .by { opacity: .75; }
 /* Walk with us: the six days as the timetable - a card each, strung on a timeline drawn like the
    route on the map (orange ring pins on a dashed line). Opening a card shows its stages and photos. */
 /* the "at your own risk" notice, in a hand-drawn grey box (page.js) */
-.risk-note { position: relative; isolation: isolate; max-width: 40em; margin: 0 auto 28px; padding: 14px 18px; text-align: center; font-size: .92em; line-height: 1.55; color: var(--muted); }
+.risk-note { position: relative; isolation: isolate; max-width: 40em; margin: clamp(32px, 4vw, 44px) auto 0; padding: 14px 18px; text-align: center; font-size: .92em; line-height: 1.55; color: var(--muted); }
 .risk-note > svg.sketch { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: -1; }
 .risk-note .why-label { color: var(--fg); }
 .risk-note em { font-style: normal; }
