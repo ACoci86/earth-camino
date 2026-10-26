@@ -9,7 +9,7 @@
 
 Website for Cecily Maher's Earth Camino: a six-day, 220 km walk from Waterford City to Dublin along the River Barrow and the Grand Canal, 9 to 14 November 2026, ending at the Climate March.
 
-Live at [acoci86.github.io/earth-camino](https://acoci86.github.io/earth-camino/).
+Live at [www.earthcamino.ie](https://www.earthcamino.ie/).
 
 ## What's here
 
@@ -20,6 +20,7 @@ Live at [acoci86.github.io/earth-camino](https://acoci86.github.io/earth-camino/
 - `js/route.js`: route line and elevation data
 - `img/`, `logo/`: photos, icons and logos
 - `fonts/`: the fonts, served from the site (SIL Open Font License)
+- `CNAME`: the custom domain, www.earthcamino.ie, for GitHub Pages
 - `vendor/`: Leaflet, rough.js and Rough Notation, served from the site so no outside service can block them
 
 It's a static site with no build step: open `index.html` in a browser, or serve the folder with any static host.
