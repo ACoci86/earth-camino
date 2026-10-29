@@ -2,7 +2,7 @@
 document.documentElement.classList.add('js');   // the stylesheet hides what the script will reveal only when it runs
 // (title underlines, the date, the highlights, the closing divider).
 
-// Hand-drawn dividers in each day box: a line across under the title and a line between the two
+// Hand-drawn dividers in each day box: a line across under the title and a line between each pair of
 // stages (stacked stages on phones get a line between them instead). Same sketch style as the
 // title underlines; a fixed seed per box keeps each line's wobble the same on every redraw.
 (() => {
@@ -25,10 +25,12 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     const rc = rough.svg(svg), w = box.clientWidth, h = box.clientHeight;
     const opt = n => ({ stroke: STROKE, strokeWidth: 1.4, ...SKETCH, seed: 101 + i * 7 + n });
     svg.appendChild(rc.line(0, 1, w, 1, opt(0)));
-    const [a, b] = box.querySelectorAll('.stage');
-    if (!b) return;
-    if (b.offsetTop > a.offsetTop + 4) { const y = b.offsetTop; svg.appendChild(rc.line(0, y, w, y, opt(1))); }
-    else { const x = b.offsetLeft; svg.appendChild(rc.line(x, 8, x, h - 4, opt(1))); }
+    const stages = [...box.querySelectorAll('.stage')];
+    stages.slice(1).forEach((b, n) => {
+      const a = stages[n];
+      if (b.offsetTop > a.offsetTop + 4) { const y = b.offsetTop; svg.appendChild(rc.line(0, y, w, y, opt(n + 1))); }
+      else { const x = b.offsetLeft; svg.appendChild(rc.line(x, 8, x, h - 4, opt(n + 1))); }
+    });
   });
   const drawTops = () => document.querySelectorAll('.sketch-top').forEach((el, i) => {
     let svg = el.querySelector(':scope > svg.sketch');
