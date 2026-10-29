@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found - Earth Camino</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2f5d46">
+<!-- GitHub Pages serves this page for any missing address, at any depth, so every path starts from the site root -->
+<link rel="icon" type="image/svg+xml" href="/logo/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/logo/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="48x48" href="/logo/favicon-48.png?v=2">
+<link rel="apple-touch-icon" href="/logo/apple-touch-icon.png?v=2">
+<link rel="preload" href="/fonts/outfit-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/gfs-didot-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css?v=108">
+<style>
+  .lost { padding-top: clamp(16px, 4vw, 48px); }
+  .lost .kicker { justify-content: center; }
+  .lost h1 { font-family: "GFS Didot", "Didot", "Bodoni MT", Georgia, serif; font-weight: 400; font-size: clamp(2.4rem, 1.6rem + 3vw, 3.6rem); color: var(--earth); }
+  .lost .kicker[data-ic="lost"]::before { background-image: url(/img/icons/lost.svg), url(/img/icons/disc.png), url(/img/decor/yellow-science-blob-small.png); background-size: auto 30px, auto 40px, 100% 100%; background-position: center; background-repeat: no-repeat; }
+  .lost .contact { margin-top: 22px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Earth Camino, home">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="/logo/logo-dark.svg?v=2">
+      <img src="/logo/logo-light.svg?v=2" alt="Earth Camino: Listening to the Cry of the Earth" width="1634" height="460">
+    </picture>
+  </a>
+</header>
+
+<main>
+  <section class="band invite lost">
+    <div class="wrap">
+      <div class="invite-box">
+        <p class="kicker" data-ic="lost">Page not found</p>
+        <h1>You've wandered off the path</h1>
+        <p class="lede">The page you're looking for isn't here. The walk from Waterford to Dublin, 9 to 14 November 2026, is still on.</p>
+        <p class="contact"><a href="/">Back to the Earth Camino</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- the hand-drawn link underline, as on the main page -->
+<script src="/vendor/rough.js"></script>
+<script src="/js/page.js?v=53"></script>
+</body>
+</html>

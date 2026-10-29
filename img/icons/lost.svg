@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="280" height="280" viewBox="18 24 280 280">
+  <title>lost-signpost</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path id="post" d="M151 64 C150 120 153 190 151 286" fill="none" stroke="#2f5d46" stroke-width="23" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="sign-right" d="M112 97 L224 92 L260 118 L227 143 L114 140 C111 125 110 110 112 97 Z" fill="#ffffff" stroke="#2f5d46" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="sign-left" d="M191 168 L86 171 L55 193 L88 215 L193 211 C195 197 194 182 191 168 Z" fill="#ffffff" stroke="#2f5d46" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="ground" d="M70 293 C95 286 112 296 138 290 C165 284 185 296 212 291 C230 288 244 292 256 290" fill="none" stroke="#2f5d46" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="question" d="M52 62 C54 44 70 36 84 40 C99 45 102 62 92 72 C84 80 74 82 74 98" fill="none" stroke="#2f5d46" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="question-dot" d="M66 120 C66 115.582 69.582 112 74 112 C78.418 112 82 115.582 82 120 C82 124.418 78.418 128 74 128 C69.582 128 66 124.418 66 120 Z" fill="#2f5d46" stroke="#2f5d46" stroke-width="6" stroke-miterlimit="10"/>
+  </g>
+</svg>
