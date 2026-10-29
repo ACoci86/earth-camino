@@ -14,7 +14,7 @@ const DAYS = [
   { legs: [4, 5], km: 41, name: 'Bagenalstown to Athy', date: 'Wednesday 11 November', times: ['9am – 12.30pm', '2pm – 5.30pm'] },
   { legs: [6, 7], km: 37.5, name: 'Athy to Rathangan', date: 'Thursday 12 November', times: ['9am – 12.30pm', '2pm – 4.30pm'] },
   { legs: [8, 9], km: 50, name: 'Rathangan to Clondalkin', date: 'Friday 13 November', times: ['9am – 2pm', '3pm – 6.30pm'] },
-  { legs: [10], km: 12, name: 'Clondalkin to the Garden of Remembrance', date: 'Saturday 14 November', times: ['9am – 12pm', 'Climate March 1pm'] }
+  { legs: [10], km: 12, name: 'Clondalkin to the Garden of Remembrance', date: 'Saturday 14 November', times: ['9am – 12pm', 'Prayer gathering 12.30pm', 'Climate March 1pm'] }
 ];
 const PLANNED_KM = 220;
 const ROUTE_COLOR = '#d9622b';
