@@ -302,11 +302,11 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   const shown = grid ? [...grid.children].filter(f => !f.hidden) : [];
   const video = shown.findIndex(f => f.querySelector('[data-video]'));
   const wideCut = video >= 0 ? video + 1 : 10;
+  if (more && shown.length <= 5) more.hidden = true;   // nothing more to show
   if (more && shown.length > 5) {
     shown.slice(5).forEach(f => f.classList.add('extra'));
     shown.slice(wideCut).forEach(f => f.classList.add('extra-wide'));
     grid.classList.add('collapsed');
-    more.hidden = false;
     more.addEventListener('click', () => {
       grid.classList.remove('collapsed');
       more.hidden = true;

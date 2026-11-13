@@ -315,10 +315,11 @@ figcaption a { color: inherit; }
 @media (min-width: 601px) { .trail-grid.collapsed > .extra-wide { display: none; } }
 @media (prefers-reduced-motion: reduce) { .trail-grid img { transition: none; } }
 .trail-all-wrap { margin-top: 20px; display: flex; justify-content: center; }
-.trail-expand { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 20px; border-radius: 999px; font: 600 .95rem var(--sans); color: var(--bg); background: var(--earth); transition: background .15s; }   /* opens the rest of the mosaic */
-.trail-expand:hover { background: color-mix(in srgb, #000 15%, var(--earth)); }
-.trail-expand:focus-visible { outline: 2px solid var(--pin); outline-offset: 2px; }
-.trail-expand[hidden] { display: none !important; }
+/* "Show more photos" opens the rest of the mosaic: drawn like the day cards' "View details" (the .day-more box,
+   handwriting and arrow, orange on hover), and its words stay on phones too */
+.trail-expand { appearance: none; margin: 0; border: 0; background: none; cursor: pointer; font-family: "Gaegu", "Segoe Print", cursive; font-size: 1.15rem; line-height: 1; white-space: nowrap; }
+.trail-expand:hover { color: var(--pin); }
+html:not(.js) .trail-expand, .trail-expand[hidden] { display: none !important; }   /* it needs the script */
 .lightbox img { cursor: pointer; }   /* a tap on its left or right side goes back or on (page.js) */
 
 /* The lightbox: one photo at a time over a dark screen, its caption and credit under it */
