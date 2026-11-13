@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" role="img" aria-label="Hand-drawn camera icon">
+  <title>Photos from the trail: hand-drawn camera icon</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path id="body" d="M58 108 C98 104 198 106 240 107 C258 108 269 118 270 136 C272 170 271 205 268 230 C266 247 256 255 238 256 C193 258 103 257 58 255 C40 254 29 244 28 228 C26 195 27 165 29 135 C30 118 41 109 58 108 Z" fill="none" stroke="#24503a" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="viewfinder" d="M100 107 C104 95 108 84 120 82 C138 80 160 80 178 82 C188 83 192 95 196 107" fill="none" stroke="#24503a" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="lens" d="M148 132 C178 131 200 153 199 182 C198 211 176 232 147 231 C118 230 97 209 98 181 C99 154 120 133 148 132 Z" fill="none" stroke="#24503a" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="shutter" d="M48 98 C48 90 52 87 60 87 L78 87 C85 87 88 90 88 98 L88 104 L48 104 Z" fill="#24503a"/>
+    <ellipse id="flash" cx="234.5" cy="138" rx="10.5" ry="10" fill="#24503a"/>
+    <path id="sparks" d="M262 72 L273 50 M277 87 L298 76 M281 104 L303 103" fill="none" stroke="#24503a" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10"/>
+    <path id="inner_lens" data-name="inner lens" d="M149 160 C161 159 171 169 171 182 C171 194 160 204 148 204 C136 204 126 194 126 182 C126 170 137 161 149 160 Z" fill="none" stroke="#24503a" stroke-width="10" stroke-linejoin="round"/>
+    <path id="glint" d="M120 172 C122 160 131 150 143 147" fill="none" stroke="#24503a" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10"/>
+  </g>
+</svg>

@@ -72,6 +72,7 @@ h1, h2, h3 { font-family: var(--sans); font-weight: 800; line-height: 1.1; lette
 .kicker[data-ic="days"]::before { background-image: url(../img/icons/days.svg), url(../img/icons/disc.png), url(../img/decor/yellow-science-blob-small.png); background-size: auto 30px, auto 40px, 100% 100%; background-position: center; background-repeat: no-repeat; }
 .kicker[data-ic="finish"]::before { background-image: url(../img/icons/finish.svg), url(../img/icons/disc.png), url(../img/decor/yellow-science-blob-small.png); background-size: auto 44px, auto 40px, 100% 100%; background-position: center; background-repeat: no-repeat; }
 .kicker[data-ic="stages"]::before { background-image: url(../img/icons/stages.svg), url(../img/icons/disc.png), url(../img/decor/yellow-science-blob-small.png); background-size: auto 30px, auto 40px, 100% 100%; background-position: center; background-repeat: no-repeat; }
+.kicker[data-ic="photos"]::before { background-image: url(../img/icons/camera.svg), url(../img/icons/disc.png), url(../img/decor/yellow-science-blob-small.png); background-size: auto 40px, auto 40px, 100% 100%; background-position: center; background-repeat: no-repeat; }
 .band h2 { position: relative; font-size: clamp(2rem, 1.3rem + 2.4vw, 3.2rem); }   /* positioned: Rough Notation draws its orange underline inside the heading, so it moves with it */
 .lede { margin-top: 18px; font-size: 1.05em; color: var(--muted); max-width: 38em; }
 
@@ -292,6 +293,54 @@ figcaption .by { opacity: .75; }
 .gallery img { aspect-ratio: 4 / 3; object-fit: cover; }
 @media (max-width: 520px) { .gallery { grid-template-columns: minmax(0, 1fr); } }
 figcaption a { color: inherit; }
+/* Along the way: a chosen handful of the walkers' photos as one mosaic - a large photo, four small ones
+   beside it, then the same the other way round. Every photo, shown or not, opens in the lightbox (page.js) */
+.trail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(100px, 17vw, 170px); grid-auto-flow: dense; gap: clamp(8px, 1.4vw, 14px); }
+.trail-grid .big { grid-column: span 2; grid-row: span 2; }
+.trail-grid figure, .trail-grid .photo-link { display: block; height: 100%; }
+.trail-grid .photo-link { overflow: hidden; border-radius: calc(var(--radius) * .7); cursor: zoom-in; }
+.trail-grid img { height: 100%; object-fit: cover; border-radius: 0; transition: transform .5s cubic-bezier(.2, .7, .3, 1); }
+.trail-grid .photo-link:hover img { transform: scale(1.035); }
+.trail-grid figcaption { display: none; }   /* shown with the photo in the lightbox */
+/* a video's tile: its poster with a round play button over it */
+.trail-grid .photo-link[data-video] { position: relative; }
+.trail-grid .play { position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px; border-radius: 50%; background: rgba(20, 24, 20, .55); box-shadow: 0 0 0 2px rgba(255,255,255,.85); transition: background .15s, transform .2s; }
+.trail-grid .play::after { content: ""; position: absolute; left: 21px; top: 16px; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #fff; }
+.trail-grid .photo-link:hover .play { background: var(--pin); transform: scale(1.06); }
+@media (max-width: 600px) { .trail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 34vw; } }
+@media (prefers-reduced-motion: reduce) { .trail-grid img { transition: none; } }
+.trail-all-wrap { margin-top: 20px; text-align: center; }
+.trail-all { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 20px; border-radius: 999px; font: 600 .95rem var(--sans); color: var(--earth); background: var(--cream); transition: background .15s; }
+.trail-all:hover { background: color-mix(in srgb, var(--earth) 12%, var(--cream)); }
+.trail-all:focus-visible { outline: 2px solid var(--pin); outline-offset: 2px; }
+
+/* The lightbox: one photo at a time over a dark screen, its caption and credit under it */
+.lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #0e110f; color: #f2f2ee; overscroll-behavior: contain; }
+.lightbox::backdrop { background: transparent; }
+.lightbox[open] { display: grid; place-items: center; animation: lb-in .2s ease-out; }
+@keyframes lb-in { from { opacity: 0; } }
+html:has(.lightbox[open]) { overflow: hidden; }   /* the page stays put behind it */
+.lightbox figure { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 56px 72px 24px; max-width: 100%; }
+.lightbox img, .lightbox video { display: block; width: auto; height: auto; max-width: min(1200px, 100%); max-height: calc(100dvh - 170px); border-radius: 8px; background: none; touch-action: pan-y; user-select: none; -webkit-user-drag: none; }
+.lightbox figcaption { margin: 0; text-align: center; font-size: .95rem; line-height: 1.5; color: #e6e8e2; max-width: 40em; }
+.lightbox .lb-day { display: block; font-weight: 600; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: #8cc4a4; }
+.lightbox .by { display: block; font-size: .8rem; opacity: .65; }
+.lb-btn { all: unset; position: absolute; box-sizing: border-box; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; cursor: pointer; background: rgba(255,255,255,.1); color: #fff; font: 400 34px/1 var(--sans); transition: background .15s; }
+.lb-btn:hover { background: rgba(255,255,255,.22); }
+.lb-btn:focus-visible { outline: 2px solid var(--pin); outline-offset: 2px; }
+.lb-close { top: 12px; right: 12px; font-size: 30px; }
+.lb-prev, .lb-next { top: 50%; transform: translateY(-50%); padding-bottom: 4px; }
+.lb-prev { left: 14px; }
+.lb-next { right: 14px; }
+.lb-count { position: absolute; top: 22px; left: 20px; font-size: .85rem; color: #b9bdb5; font-variant-numeric: tabular-nums; }
+/* phones: the photo takes the full width, and the arrows sit low, under the thumb */
+@media (max-width: 600px) {
+  .lightbox figure { padding: 60px 0 96px; }
+  .lightbox img, .lightbox video { max-width: 100%; max-height: calc(100dvh - 260px); border-radius: 0; }
+  .lightbox figcaption { padding: 0 20px; }
+  .lb-prev, .lb-next { top: auto; bottom: 22px; transform: none; }
+  .lb-prev { left: 20px; } .lb-next { right: 20px; }
+}
 
 /* The destination */
 .divider { display: block; width: min(100%, 280px); height: 14px; margin: 0 auto 30px; position: relative; }   /* Rough Notation paints it with an orange marker stroke */

@@ -40,7 +40,7 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   });
   // Sketched underline under every text link, drawn inside the link itself (so it moves with the text):
   // one small SVG at the link's top-left corner, a line under each line of the link
-  const LINKS = 'main a:not(.finale-logo):not(.leaflet-container a), footer a:not(.foot-logo)';
+  const LINKS = 'main a:not(.finale-logo):not(.photo-link):not(.leaflet-container a), footer a:not(.foot-logo)';
   const drawLinks = () => document.querySelectorAll(LINKS).forEach((a, i) => {
     let svg = a.querySelector(':scope > svg.link-sketch');
     if (!svg) {
@@ -257,6 +257,69 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
       });
     });
   }), { rootMargin: '0px 0px -20% 0px' }).observe(note);
+})();
+
+// Along the way: a photo opens large in the lightbox, with its day, caption and credit; arrows, the arrow
+// keys or a swipe move through all the photos, Esc or a tap beside the photo closes it. Without the script
+// (or a browser without <dialog>), each photo is a plain link to its large file.
+(() => {
+  const box = document.querySelector('.lightbox');
+  const links = [...document.querySelectorAll('.trail-grid .photo-link')];
+  if (!box || !links.length || typeof box.showModal !== 'function') return;
+  const img = box.querySelector('img'), vid = box.querySelector('video'), day = box.querySelector('.lb-day'), cap = box.querySelector('.lb-cap'), count = box.querySelector('.lb-count');
+  let at = 0, opener = null;
+  const stopVideo = () => { vid.pause(); vid.removeAttribute('src'); vid.load(); vid.hidden = true; };
+  const show = i => {
+    at = (i + links.length) % links.length;
+    const a = links[at], thumb = a.querySelector('img'), fig = a.closest('figure');
+    stopVideo();
+    if (a.hasAttribute('data-video')) {
+      // a video plays in the photo's place, with its sound off until the viewer turns it on
+      img.hidden = true; vid.hidden = false;
+      vid.poster = thumb.currentSrc || thumb.src; vid.src = a.getAttribute('href');
+      vid.setAttribute('aria-label', thumb.alt);
+      vid.play().catch(() => {});
+    } else {
+      img.hidden = false;
+      img.removeAttribute('src');   // no flash of the previous photo while the next one loads
+      img.srcset = thumb.srcset; img.sizes = '(max-width: 600px) 100vw, min(1200px, 100vw - 144px)';
+      img.src = a.getAttribute('href'); img.alt = thumb.alt;
+    }
+    day.textContent = fig.dataset.day || '';
+    cap.innerHTML = fig.querySelector('figcaption')?.innerHTML || '';
+    count.textContent = `${at + 1} / ${links.length}`;
+    const next = links[(at + 1) % links.length];
+    if (!next.hasAttribute('data-video')) new Image().src = next.getAttribute('href');   // the next photo, ready to go
+  };
+  links.forEach((a, i) => a.addEventListener('click', e => {
+    e.preventDefault();
+    opener = a; show(i); box.showModal();
+  }));
+  // "See all photos": the mosaic shows a few, the lightbox walks through every one from the start
+  const all = document.querySelector('.trail-all');
+  if (all) { all.hidden = false; all.addEventListener('click', () => { opener = all; show(0); box.showModal(); }); }
+  box.querySelector('.lb-close').addEventListener('click', () => box.close());
+  box.querySelector('.lb-prev').addEventListener('click', () => show(at - 1));
+  box.querySelector('.lb-next').addEventListener('click', () => show(at + 1));
+  box.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') show(at - 1);
+    else if (e.key === 'ArrowRight') show(at + 1);
+  });
+  // a tap on the dark around the photo closes it; a tap on the photo or its caption does not
+  let swiped = false;
+  box.addEventListener('click', e => {
+    if (swiped) { swiped = false; return; }   // the click that ends a swipe
+    if (e.target === box || e.target.tagName === 'FIGURE') box.close();
+  });
+  box.addEventListener('close', () => { stopVideo(); opener?.focus({ preventScroll: true }); });
+  // swipe left or right on a phone
+  let x0 = null;
+  box.addEventListener('pointerdown', e => { x0 = e.pointerType === 'mouse' ? null : e.clientX; });
+  box.addEventListener('pointerup', e => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) { swiped = true; setTimeout(() => { swiped = false; }, 400); show(dx < 0 ? at + 1 : at - 1); }
+  });
 })();
 
 // If the map's tiles cannot load (a network or blocker stopping the map providers), a picture of the
