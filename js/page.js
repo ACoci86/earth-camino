@@ -295,15 +295,16 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
     e.preventDefault();
     opener = a; show(i); box.showModal();
   }));
-  // "See all photos": the mosaic shows a few, the lightbox walks through every one from the start
-  const all = document.querySelector('.trail-all');
-  if (all) { all.hidden = false; all.addEventListener('click', () => { opener = all; show(0); box.showModal(); }); }
-  // phones: the mosaic opens on its first five photos (the stylesheet hides the rest while it is collapsed);
-  // "Show more photos" opens the whole mosaic in place, and any photo in it opens the full gallery
+  // the mosaic opens on its first photos (the stylesheet hides the rest while it is collapsed): five on a
+  // phone, and on wider screens everything up to the video; "Show more photos" opens the whole mosaic in
+  // place, and any photo in it opens the full gallery
   const grid = document.querySelector('.trail-grid'), more = document.querySelector('.trail-expand');
   const shown = grid ? [...grid.children].filter(f => !f.hidden) : [];
+  const video = shown.findIndex(f => f.querySelector('[data-video]'));
+  const wideCut = video >= 0 ? video + 1 : 10;
   if (more && shown.length > 5) {
     shown.slice(5).forEach(f => f.classList.add('extra'));
+    shown.slice(wideCut).forEach(f => f.classList.add('extra-wide'));
     grid.classList.add('collapsed');
     more.hidden = false;
     more.addEventListener('click', () => {
