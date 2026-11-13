@@ -59,7 +59,7 @@
 <!-- the map is further down the page: its stylesheet loads without holding up the first paint -->
 <link rel="stylesheet" href="vendor/leaflet.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="vendor/leaflet.min.css"></noscript>
-<link rel="stylesheet" href="css/style.css?v=116">
+<link rel="stylesheet" href="css/style.css?v=119">
 </head>
 <body>
 
@@ -505,7 +505,7 @@
         <figcaption>“Lunch at Robertstown, where the Barrow Way meets the Grand Canal.” <span class="by">Cecily Maher</span></figcaption>
         </figure>
       </div>
-      <p class="trail-all-wrap"><button class="trail-all" type="button" hidden>See all 43 photos</button></p>
+      <p class="trail-all-wrap"><button class="trail-expand" type="button" aria-expanded="false" hidden>Show more photos</button><button class="trail-all" type="button" aria-haspopup="dialog" hidden>See all photos</button></p>
     </div>
   </section>
   <!-- a photo opened large, with the previous and next ones a tap or swipe away (page.js) -->
@@ -583,6 +583,6 @@
 <script src="vendor/rough.js"></script>
 <script src="js/map.js?v=14"></script>
 <script src="vendor/rough-notation.iife.js"></script>
-<script src="js/page.js?v=57"></script>
+<script src="js/page.js?v=60"></script>
 </body>
 </html>

@@ -298,6 +298,21 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   // "See all photos": the mosaic shows a few, the lightbox walks through every one from the start
   const all = document.querySelector('.trail-all');
   if (all) { all.hidden = false; all.addEventListener('click', () => { opener = all; show(0); box.showModal(); }); }
+  // phones: the mosaic opens on its first five photos (the stylesheet hides the rest while it is collapsed);
+  // "Show more photos" opens the whole mosaic in place, and any photo in it opens the full gallery
+  const grid = document.querySelector('.trail-grid'), more = document.querySelector('.trail-expand');
+  const shown = grid ? [...grid.children].filter(f => !f.hidden) : [];
+  if (more && shown.length > 5) {
+    shown.slice(5).forEach(f => f.classList.add('extra'));
+    grid.classList.add('collapsed');
+    more.hidden = false;
+    more.addEventListener('click', () => {
+      grid.classList.remove('collapsed');
+      more.hidden = true;
+      more.setAttribute('aria-expanded', 'true');
+      shown[5].querySelector('a')?.focus({ preventScroll: true });   // keyboard users carry on from the first new photo
+    });
+  }
   box.querySelector('.lb-close').addEventListener('click', () => box.close());
   box.querySelector('.lb-prev').addEventListener('click', () => show(at - 1));
   box.querySelector('.lb-next').addEventListener('click', () => show(at + 1));
@@ -309,6 +324,12 @@ document.documentElement.classList.add('js');   // the stylesheet hides what the
   let swiped = false;
   box.addEventListener('click', e => {
     if (swiped) { swiped = false; return; }   // the click that ends a swipe
+    if (e.target === img) {
+      // a tap on the photo's left third goes back, on its right third goes on
+      const r = img.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
+      if (x < 1 / 3) show(at - 1); else if (x > 2 / 3) show(at + 1);
+      return;
+    }
     if (e.target === box || e.target.tagName === 'FIGURE') box.close();
   });
   box.addEventListener('close', () => { stopVideo(); opener?.focus({ preventScroll: true }); });

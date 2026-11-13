@@ -307,12 +307,23 @@ figcaption a { color: inherit; }
 .trail-grid .play { position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px; border-radius: 50%; background: rgba(20, 24, 20, .55); box-shadow: 0 0 0 2px rgba(255,255,255,.85); transition: background .15s, transform .2s; }
 .trail-grid .play::after { content: ""; position: absolute; left: 21px; top: 16px; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #fff; }
 .trail-grid .photo-link:hover .play { background: var(--pin); transform: scale(1.06); }
-@media (max-width: 600px) { .trail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 34vw; } }
+@media (max-width: 600px) {
+  .trail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 34vw; }
+  /* phones: the first five photos with a light fade; "Show more photos" opens the rest in place, and a tap on any photo opens the gallery (page.js) */
+  .trail-all { display: none !important; }
+  .trail-grid.collapsed > .extra { display: none; }
+  .trail-grid.collapsed { -webkit-mask-image: linear-gradient(#000 88%, rgba(0,0,0,.45)); mask-image: linear-gradient(#000 88%, rgba(0,0,0,.45)); }   /* a light fade: there is more */
+}
 @media (prefers-reduced-motion: reduce) { .trail-grid img { transition: none; } }
-.trail-all-wrap { margin-top: 20px; text-align: center; }
-.trail-all { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 20px; border-radius: 999px; font: 600 .95rem var(--sans); color: var(--earth); background: var(--cream); transition: background .15s; }
+.trail-all-wrap { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.trail-all, .trail-expand { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 20px; border-radius: 999px; font: 600 .95rem var(--sans); color: var(--earth); background: var(--cream); transition: background .15s; }
 .trail-all:hover { background: color-mix(in srgb, var(--earth) 12%, var(--cream)); }
-.trail-all:focus-visible { outline: 2px solid var(--pin); outline-offset: 2px; }
+.trail-expand { color: var(--bg); background: var(--earth); }   /* phones only: opens the rest of the mosaic */
+.trail-expand:hover { background: color-mix(in srgb, #000 15%, var(--earth)); }
+.trail-all:focus-visible, .trail-expand:focus-visible { outline: 2px solid var(--pin); outline-offset: 2px; }
+.trail-expand[hidden] { display: none !important; }
+@media (min-width: 601px) { .trail-expand { display: none !important; } }   /* the whole mosaic shows on wider screens */
+.lightbox img { cursor: pointer; }   /* a tap on its left or right side goes back or on (page.js) */
 
 /* The lightbox: one photo at a time over a dark screen, its caption and credit under it */
 .lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #0e110f; color: #f2f2ee; overscroll-behavior: contain; }
